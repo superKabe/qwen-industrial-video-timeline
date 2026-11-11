@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Interactive comparison of human video annotations and local Qwen3-VL predictions."
+    />
+    <title>Frame by Frame — Qwen3-VL Timeline Audit</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="masthead">
+        <a class="wordmark" href="#comparison" aria-label="Jump to timeline comparison">
+          <span class="wordmark-mark" aria-hidden="true"></span>
+          FIELD NOTE / 01
+        </a>
+        <p class="run-status"><span></span> LOCAL INFERENCE · 70 SEC CLIP · 1 FPS</p>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow">Temporal grounding under constraint</p>
+            <h1 id="page-title">Seeing the work is not the same as <em>timing it.</em></h1>
+          </div>
+          <p class="hero-copy">
+            A local Qwen3-VL model watched an annotated industrial assembly clip. Use the
+            synchronized tracks below to inspect where its fluent description becomes an
+            unreliable event record.
+          </p>
+        </section>
+
+        <section class="workspace" id="comparison" aria-label="Interactive video comparison">
+          <div class="video-column">
+            <div class="video-frame">
+              <video
+                id="source-video"
+                preload="metadata"
+                playsinline
+                controls
+                src="../data/processed/indego_mechanical_desk_000_070.mp4"
+              >
+                Your browser does not support HTML video.
+              </video>
+              <div class="video-hud" aria-hidden="true">
+                <span>MECHANICAL DESK / EGOCENTRIC</span>
+                <span id="hud-time">00:00.0</span>
+              </div>
+              <div class="video-corner corner-tl" aria-hidden="true"></div>
+              <div class="video-corner corner-br" aria-hidden="true"></div>
+            </div>
+
+            <div class="video-fallback" id="video-fallback" hidden>
+              <div>
+                <strong>Source video is not available at the default path.</strong>
+                <span>Select the 70-second IndEgo clip to keep all processing local.</span>
+              </div>
+              <label class="file-button" for="video-file">Choose video</label>
+              <input id="video-file" type="file" accept="video/*" />
+            </div>
+
+            <div class="now-reading" aria-live="polite">
+              <span class="now-label">At this frame</span>
+              <div class="now-events">
+                <span class="now-pill human" id="now-human">Human: —</span>
+                <span class="now-pill model" id="now-model">Qwen: —</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="analysis-column" aria-label="Run summary">
+            <div class="analysis-heading">
+              <div>
+                <p class="section-kicker">Active run</p>
+                <h2 id="active-model-title">Qwen3-VL 4B</h2>
+              </div>
+              <span class="precision-badge" id="precision-badge">BF16</span>
+            </div>
+
+            <div class="model-switcher" id="model-switcher" aria-label="Select model run"></div>
+
+            <div class="metrics" id="metrics" aria-label="Evaluation metrics"></div>
+
+            <div class="finding">
+              <span class="finding-index">01</span>
+              <div>
+                <strong>Recognition ≠ localization</strong>
+                <p id="finding-copy">
+                  The model recognized several actions, but compressed repeated steps and drifted
+                  across event boundaries.
+                </p>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="timeline-panel" aria-labelledby="timeline-title">
+          <div class="timeline-heading">
+            <div>
+              <p class="section-kicker">Ground truth vs. prediction</p>
+              <h2 id="timeline-title">The timeline is the evaluation.</h2>
+            </div>
+            <div class="legend" aria-label="Event status legend">
+              <span><i class="legend-swatch matched"></i>matched</span>
+              <span><i class="legend-swatch missed"></i>missed / mislocalized</span>
+            </div>
+          </div>
+
+          <div class="scrubber-wrap">
+            <label for="scrubber">Video position</label>
+            <div class="scrubber-control">
+              <span id="current-time">00:00.0</span>
+              <input
+                id="scrubber"
+                type="range"
+                min="0"
+                max="70"
+                value="0"
+                step="0.05"
+                aria-valuetext="0 seconds"
+              />
+              <span id="duration-time">01:10.0</span>
+            </div>
+          </div>
+
+          <div class="timeline-grid">
+            <div class="track-labels" aria-hidden="true">
+              <div class="ruler-spacer"></div>
+              <div>
+                <span class="track-source human-dot"></span>
+                <strong>Human</strong>
+                <small>reference annotation</small>
+              </div>
+              <div>
+                <span class="track-source model-dot"></span>
+                <strong id="model-track-label">Qwen 4B</strong>
+                <small>model prediction</small>
+              </div>
+            </div>
+
+            <div class="tracks" id="tracks">
+              <div class="ruler" id="ruler" aria-hidden="true"></div>
+              <div class="event-track human-track" id="human-track" aria-label="Human annotations"></div>
+              <div class="event-track model-track" id="model-track" aria-label="Model predictions"></div>
+              <div class="playhead" id="playhead" aria-hidden="true"><span></span></div>
+            </div>
+          </div>
+
+          <div class="event-detail" id="event-detail" aria-live="polite">
+            <div class="detail-time">SELECT<br />AN EVENT</div>
+            <div>
+              <p class="detail-type">Inspection</p>
+              <h3>Click any timeline block to seek the video.</h3>
+              <p>The selected event’s timing, evaluation status, and model evidence appear here.</p>
+            </div>
+            <div class="detail-score">
+              <span>tIoU</span>
+              <strong>—</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="method-note" aria-label="Method and source">
+          <div>
+            <p class="section-kicker">What this does — and does not — show</p>
+            <p>
+              This is a single-clip case study, not a benchmark. Events match only when their
+              labels agree and temporal intersection-over-union reaches 0.30. The interface is an
+              audit surface: it makes timing errors inspectable instead of reducing them to one
+              score.
+            </p>
+          </div>
+          <div class="source-note">
+            <span>Source</span>
+            <p>
+              IndEgo dataset by Fraunhofer IPK,
+              <a href="https://huggingface.co/datasets/FraunhoferIPK/IndEgo">CC BY 4.0</a>.
+              Mechanical desk assembly, 70-second excerpt.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>

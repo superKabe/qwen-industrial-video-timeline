@@ -9,6 +9,19 @@
     "peak_vram_gb": 18.498,
     "status": "completed"
   },
+  "completed_8b_run": {
+    "model": "Qwen/Qwen3-VL-8B-Instruct",
+    "weight_precision": "int8",
+    "compute_dtype": "float16",
+    "sample_fps": 1.0,
+    "sampled_frames": 70,
+    "max_pixels_per_frame": 131072,
+    "total_pixel_budget": 6144000,
+    "model_memory_footprint_gb": 9.329,
+    "inference_seconds": 55.066,
+    "peak_vram_gb": 19.741,
+    "status": "completed"
+  },
   "bounded_scaling_attempts": [
     {
       "model": "Qwen/Qwen3-VL-8B-Instruct",
@@ -36,5 +49,5 @@
       "status": "stopped after more than 8 minutes without completion"
     }
   ],
-  "interpretation": "These are bounded deployment observations, not completed latency benchmarks. Only the primary 4B 1 FPS run produced a prediction and accuracy metrics."
+  "interpretation": "The 4B BF16 and 8B INT8 1 FPS runs produced predictions and accuracy metrics. The stopped trials are bounded deployment observations, not completed latency benchmarks. Because the completed models use different weight precision, the comparison is operational rather than a precision-controlled model-size benchmark."
 }

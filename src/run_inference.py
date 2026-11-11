@@ -11,7 +11,7 @@ from pathlib import Path
 
 import torch
 from qwen_vl_utils import process_vision_info
-from transformers import AutoModelForImageTextToText, AutoProcessor
+from transformers import AutoModelForImageTextToText, AutoProcessor, BitsAndBytesConfig
 
 from common import (
     DATA_PROCESSED,
@@ -99,6 +99,12 @@ def main() -> None:
     parser.add_argument("--fps", type=float, default=1.0)
     parser.add_argument("--max-new-tokens", type=int, default=512)
     parser.add_argument("--prompt", choices=("timeline", "generic"), default="timeline")
+    parser.add_argument(
+        "--quantization",
+        choices=("bf16", "int8", "nf4"),
+        default="bf16",
+        help="Weight precision. int8 is the preferred 8B mode on a 24 GB GPU.",
+    )
     parser.add_argument("--max-pixels", type=int, default=128 * 32 * 32)
     parser.add_argument("--total-pixels", type=int, default=6_000 * 32 * 32)
     args = parser.parse_args()
@@ -119,11 +125,26 @@ def main() -> None:
     print(f"Loading {args.model}...")
     torch.cuda.reset_peak_memory_stats()
     load_started = time.perf_counter()
+    quantization_config = None
+    model_dtype = torch.bfloat16
+    if args.quantization == "int8":
+        quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+        # bitsandbytes' INT8 matmul kernel computes in FP16. Loading the remaining
+        # modules in FP16 avoids a BF16-to-FP16 cast (and warning) on every layer.
+        model_dtype = torch.float16
+    elif args.quantization == "nf4":
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_compute_dtype=torch.bfloat16,
+        )
     model = AutoModelForImageTextToText.from_pretrained(
         args.model,
-        dtype=torch.bfloat16,
+        dtype=model_dtype,
         device_map="auto",
         attn_implementation="sdpa",
+        quantization_config=quantization_config,
     )
     processor = AutoProcessor.from_pretrained(args.model)
     load_seconds = time.perf_counter() - load_started
@@ -191,7 +212,10 @@ def main() -> None:
         clean_up_tokenization_spaces=False,
     )[0]
 
-    run_name = f"{args.prompt}_{args.model.split('/')[-1].lower()}_{args.fps:g}fps"
+    precision_suffix = "" if args.quantization == "bf16" else f"_{args.quantization}"
+    run_name = (
+        f"{args.prompt}_{args.model.split('/')[-1].lower()}_{args.fps:g}fps{precision_suffix}"
+    )
     raw_path = RESULTS / f"{run_name}_raw.txt"
     prediction_path = RESULTS / f"{run_name}_prediction.json"
     metadata_path = RESULTS / f"{run_name}_run.json"
@@ -214,6 +238,9 @@ def main() -> None:
     run_metadata = {
         "created_at": datetime.now(UTC).isoformat(),
         "model": args.model,
+        "quantization": args.quantization,
+        "compute_dtype": str(model_dtype).removeprefix("torch."),
+        "model_memory_footprint_gb": round(model.get_memory_footprint() / 1024**3, 3),
         "prompt": args.prompt,
         "video": str(clip_path.relative_to(ROOT)),
         "fps": args.fps,
