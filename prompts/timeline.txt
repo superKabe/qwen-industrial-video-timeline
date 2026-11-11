@@ -1,0 +1,30 @@
+You are analyzing an egocentric industrial assembly video.
+
+Identify only actions that are visibly supported by the video. Use the allowed action labels below exactly as written. Do not invent an action just because it would normally occur in this procedure.
+
+Allowed action labels:
+{action_labels}
+
+Return one event for every distinct occurrence, including repeated actions. Estimate start and end times in seconds from the beginning of the supplied clip. If an action is partially visible, include it only when the visual evidence is sufficient and explain the limitation in `evidence`.
+
+Return valid JSON only, using this schema:
+{{
+  "events": [
+    {{
+      "event_type": "one exact allowed label",
+      "start_s": 0.0,
+      "end_s": 0.0,
+      "evidence": "short description of visible evidence",
+      "confidence": 0.0
+    }}
+  ],
+  "uncertain_intervals": [
+    {{
+      "start_s": 0.0,
+      "end_s": 0.0,
+      "reason": "why the action cannot be determined visually"
+    }}
+  ]
+}}
+
+Do not add Markdown fences or commentary outside the JSON.

@@ -1,0 +1,28 @@
+[project]
+name = "qwen-industrial-video-timeline"
+version = "0.1.0"
+description = "Evaluate local Qwen3-VL temporal grounding on annotated industrial assembly video."
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "accelerate>=1.10.0",
+  "matplotlib>=3.10.0",
+  "numpy>=2.1.0",
+  "pillow>=11.0.0",
+  "psutil>=7.0.0",
+  "qwen-vl-utils>=0.0.14",
+  "torch>=2.8.0",
+  "torchvision>=0.23.0",
+  "transformers>=4.57.0",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128", marker = "sys_platform == 'win32'" }]
+torchvision = [{ index = "pytorch-cu128", marker = "sys_platform == 'win32'" }]
+
+[tool.ruff]
+line-length = 100

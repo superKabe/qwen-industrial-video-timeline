@@ -1,0 +1,40 @@
+{
+  "completed_primary_run": {
+    "model": "Qwen/Qwen3-VL-4B-Instruct",
+    "sample_fps": 1.0,
+    "sampled_frames": 70,
+    "max_pixels_per_frame": 131072,
+    "total_pixel_budget": 6144000,
+    "inference_seconds": 25.198,
+    "peak_vram_gb": 18.498,
+    "status": "completed"
+  },
+  "bounded_scaling_attempts": [
+    {
+      "model": "Qwen/Qwen3-VL-8B-Instruct",
+      "sample_fps": 1.0,
+      "max_pixels_per_frame": 262144,
+      "total_pixel_budget": 12288000,
+      "observed_vram_gb": 23.9,
+      "status": "stopped after more than 10 minutes without completion"
+    },
+    {
+      "model": "Qwen/Qwen3-VL-8B-Instruct",
+      "sample_fps": 1.0,
+      "max_pixels_per_frame": 131072,
+      "total_pixel_budget": 6144000,
+      "observed_vram_gb": 23.8,
+      "status": "stopped after more than 8 minutes without completion"
+    },
+    {
+      "model": "Qwen/Qwen3-VL-4B-Instruct",
+      "sample_fps": 2.0,
+      "sampled_frames": 140,
+      "max_pixels_per_frame": 131072,
+      "total_pixel_budget": 6144000,
+      "observed_vram_gb": 23.9,
+      "status": "stopped after more than 8 minutes without completion"
+    }
+  ],
+  "interpretation": "These are bounded deployment observations, not completed latency benchmarks. Only the primary 4B 1 FPS run produced a prediction and accuracy metrics."
+}

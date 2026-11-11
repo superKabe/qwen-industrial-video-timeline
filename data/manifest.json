@@ -1,0 +1,23 @@
+{
+  "dataset": "IndEgo",
+  "publisher": "Fraunhofer IPK",
+  "license": "CC BY 4.0",
+  "dataset_url": "https://huggingface.co/datasets/FraunhoferIPK/IndEgo",
+  "assets": {
+    "source_video.mp4": {
+      "source_url": "https://huggingface.co/datasets/FraunhoferIPK/IndEgo/resolve/main/1_Assembly/03_Mechanical_Desk/mp4_480/User_16_414_2101_2_480.mp4?download=true",
+      "bytes": 103249515,
+      "sha256": "b84a6b9e294aad19eb3c80f6e46e1a06f48737be78d969d2b268560e0ac16c47"
+    },
+    "source_annotations.json": {
+      "source_url": "https://huggingface.co/datasets/FraunhoferIPK/IndEgo/resolve/main/1_Assembly/03_Mechanical_Desk/annotations/A_User_16_414_2101_2.json?download=true",
+      "bytes": 7713,
+      "sha256": "33885842553379e269931fedffa93c5a23002d1d34222066dfc36e17fbc7460c"
+    },
+    "procedure_keysteps.txt": {
+      "source_url": "https://huggingface.co/datasets/FraunhoferIPK/IndEgo/resolve/main/1_Assembly/03_Mechanical_Desk/keysteps_03_assembly.txt?download=true",
+      "bytes": 226,
+      "sha256": "d129cfb958d5c7038bb0f28d2f3c388f958060c432d1869f9e32aba513e71ad1"
+    }
+  }
+}
