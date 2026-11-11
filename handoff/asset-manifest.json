@@ -1,0 +1,60 @@
+{
+  "source_repository": "https://github.com/superKabe/qwen-industrial-video-timeline",
+  "entry_point": "handoff/README.md",
+  "assets": [
+    {
+      "path": "demo/index.html",
+      "role": "semantic demo structure",
+      "publishable": true
+    },
+    {
+      "path": "demo/style.css",
+      "role": "self-contained demo visual system",
+      "publishable": true
+    },
+    {
+      "path": "demo/app.js",
+      "role": "timeline state, rendering, video synchronization, and data adapter",
+      "publishable": true
+    },
+    {
+      "path": "data/processed/ground_truth.json",
+      "role": "reference annotations",
+      "publishable": true,
+      "attribution_required": true
+    },
+    {
+      "path": "results/timeline_qwen3-vl-4b-instruct_1fps_prediction.json",
+      "role": "4B prediction timeline",
+      "publishable": true
+    },
+    {
+      "path": "results/qwen3_vl_4b_1fps_evaluation.json",
+      "role": "4B evaluation details",
+      "publishable": true
+    },
+    {
+      "path": "results/timeline_qwen3-vl-8b-instruct_1fps_int8_prediction.json",
+      "role": "8B prediction timeline",
+      "publishable": true
+    },
+    {
+      "path": "results/qwen3_vl_8b_1fps_int8_evaluation.json",
+      "role": "8B evaluation details",
+      "publishable": true
+    },
+    {
+      "path": "post/website_project.md",
+      "role": "case-study copy",
+      "publishable": true
+    },
+    {
+      "path": "data/processed/indego_mechanical_desk_000_070.mp4",
+      "role": "processed source clip",
+      "publishable": "decision-required",
+      "tracked_in_git": false,
+      "notes": "Verify CC BY 4.0 attribution and portfolio hosting limits before publishing."
+    }
+  ]
+}
+

@@ -31,6 +31,8 @@ Serve the repository root, then open `http://localhost:8000/demo/`:
 
 The source clip is intentionally excluded from Git. The demo loads the locally prepared clip when present and otherwise offers a browser-local file picker. See [`demo/README.md`](demo/README.md) for the data contract and portfolio-site integration notes.
 
+For a cross-project Codex handoff, start with [`handoff/README.md`](handoff/README.md). It includes verified project context, a publishable-asset manifest, and a ready-to-paste website integration prompt.
+
 ## Experiment design
 
 The source is a 70-second excerpt from Fraunhofer IPK's [IndEgo dataset](https://huggingface.co/datasets/FraunhoferIPK/IndEgo). The matching human timestamp annotations contain seven complete events:
