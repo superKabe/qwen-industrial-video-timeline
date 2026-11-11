@@ -72,4 +72,3 @@ Do not claim that this one clip is a benchmark, that the reference annotations a
 - JavaScript syntax validation passed.
 - Browser QA passed for video synchronization, model switching, metrics, and event selection.
 - The demo page, styles, script, source video, and all referenced JSON artifacts returned HTTP 200 locally.
-

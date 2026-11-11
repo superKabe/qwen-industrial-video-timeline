@@ -18,4 +18,3 @@ https://github.com/superKabe/qwen-industrial-video-timeline
 Open a new Codex chat with the portfolio website repository as its workspace. Give that workspace access to this repository by cloning it as a sibling checkout or copying this `handoff/` directory plus the files listed in `asset-manifest.json` into a temporary import directory. Then paste the contents of `website-integration-prompt.md`.
 
 Use `/fork` only if you want a new primary chat that inherits this conversation and can still access the correct workspace. Repository files are the durable source of truth for a cross-project handoff.
-

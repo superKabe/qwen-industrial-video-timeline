@@ -36,4 +36,3 @@ Before implementation, report:
 6. any decision that genuinely requires my input.
 
 Then implement the approved integration, validate it responsively in the browser, and leave deployment as a separate explicit step unless I have already asked you to publish.
-
